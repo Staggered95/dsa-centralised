@@ -1,45 +1,41 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// User function Template for C++
-
 class Solution {
   public:
-    bool pairInSortedRotated(vector<int>& arr, int target) {
+    int maxSubarraySum(vector<int>& arr, int k) {
         // code here
         int n = arr.size();
-        int pivot = n-1;
-        for (int i=0; i<n-1; i++) {
-            if (arr[i] > arr[i+1]) {
-                pivot = i;
-                break;
-            }
+        int cur_sum = 0;
+
+        for (int i=0; i<k; i++) {
+            cur_sum += arr[i];
         }
 
-        int low = (pivot + 1) % n;
-        int high = pivot;
+        int max_sum = cur_sum;
 
-
-        
-        while (low != high) {
-            int sum = arr[low] + arr[high];
-            if (sum==target) {
-                return true;
-            }else if (sum < target) {
-                low = (low+1)%n;
-            }else {
-                high = (high-1+n)%n;
-            }
+        for (int i=k; i<n; i++) {
+            cur_sum = cur_sum + arr[i] - arr[i-k];
+            if (cur_sum > max_sum) max_sum = cur_sum;
         }
-        return false;
+        return max_sum;
     }
 };
+
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    
+    vector<int> v;
+    for (int i=0; i<2000; i++) {
+        v.push_back((rand()%3000));
+    }
+    v.push_back(8);
+    for (int i=0; i<3000; i++) {
+        v.push_back((rand()%3000));
+    }
+    cout << binarySearch(v, 8) << endl;
 
     return 0;
 }
