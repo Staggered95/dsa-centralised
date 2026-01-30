@@ -2,40 +2,45 @@
 using namespace std;
 
 class Solution {
-  public:
-    int maxSubarraySum(vector<int>& arr, int k) {
-        // code here
-        int n = arr.size();
+public:
+    int minSwaps(vector<int>& nums) {
+        int n = nums.size();
+        nums.insert(nums.end(), nums.begin(), nums.end());
+        int c = 0;
+
+        for (int i=0; i<n; i++) {
+            if (nums[i] == 1) c++;
+        }
+
+        n = nums.size();
         int cur_sum = 0;
+        int max_sum = 0;
 
-        for (int i=0; i<k; i++) {
-            cur_sum += arr[i];
+        for (int i=0; i<c; i++) {
+            cur_sum += nums[i];
         }
 
-        int max_sum = cur_sum;
-
-        for (int i=k; i<n; i++) {
-            cur_sum = cur_sum + arr[i] - arr[i-k];
-            if (cur_sum > max_sum) max_sum = cur_sum;
+        for (int i=c; i<n; i++) {
+            cur_sum = cur_sum + nums[i] - nums[i-c];
+            max_sum = max(max_sum, cur_sum);
         }
-        return max_sum;
+
+        return c-max_sum;
     }
 };
 
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
+    srand(time(nullptr)); 
     vector<int> v;
-    for (int i=0; i<2000; i++) {
-        v.push_back((rand()%3000));
+    int k;
+    for (int i=0; i<120000; i++) {
+        k = rand()%2==0 ? 0 : 1;
+        v.push_back(k);
     }
-    v.push_back(8);
-    for (int i=0; i<3000; i++) {
-        v.push_back((rand()%3000));
-    }
-    cout << binarySearch(v, 8) << endl;
+    
+    Solution s;
+    cout << s.minSwaps(v);
 
     return 0;
 }
