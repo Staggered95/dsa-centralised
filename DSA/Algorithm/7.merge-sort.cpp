@@ -4,7 +4,7 @@ using namespace std;
 int c = 0;
 
 void print(int arr[], int n) {
-    cout << "Recursion " << ++c << ": ";
+    if (c<n-1) cout << "Recursion " << ++c << ": ";
     for (int i = 0; i<n; i++) {
         cout << arr[i] << " ";
     }
@@ -63,6 +63,7 @@ int main() {
 
     int arr[7] = {6, 1, 7, 2, -1, 15, 10};
     mergeSort(arr, 0, 7-1);
+    cout << "Sorted array: ";
     print(arr, 7);
 
     return 0;
