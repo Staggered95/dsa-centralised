@@ -45,7 +45,7 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int arr[7] = {7, 6, 5, 4, 3, 2, 7};
+    int arr[7] = {7, 6, 5, 4, 3, 2, 1};
     quickSort(arr, 0, 7-1);
     cout << "Sorted array: ";
     print(arr, 7);
