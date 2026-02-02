@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class LinkedList
+{
+    class Node
+    {
+        public:
+        int value;
+        Node* next;
+        
+            Node(int val) {
+                value = val;
+                next = nullptr;
+            }
+    };
+
+    Node* head;
+    int length;
+
+    public:
+        LinkedList() : head(nullptr), length(0) {}
+
+    void insert(int value) {
+        Node* newNode = new Node(value);
+        newNode->next = head;
+        head = newNode;
+        length++;
+    }
+
+    void insertAtEnd(int value) {
+        Node* newNode = new Node(value);
+        if (!head) {
+            head = newNode;
+            return;
+        }
+        Node* temp = head;
+        while (temp->next != nullptr) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        length++;
+    }
+
+    void insert(int value, int position) {
+        if (position<=1) {
+            insert(value);
+        } 
+
+        if (position > length) {
+            cout << "Position doesn't exist. inserting at the end" << endl;
+            insertAtEnd(value);
+            return;
+        }
+
+        Node* newNode = new Node(value);
+        Node* temp = head;
+        for (int i=1; i<position-1; i++) {
+            temp = temp->next;
+        }
+        newNode->next = temp->next;
+        temp->next = newNode;
+        length++;
+    }
+
+
+    void traverse() {
+        Node* temp = head;
+        while (temp) {
+            cout << temp->value << " ";
+            temp = temp->next;
+        }
+    }
+
+    int size() {
+        return length;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    LinkedList list;
+    list.insert(3, 0);
+    list.traverse();
+
+    return 0;
+}
