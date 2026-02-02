@@ -32,6 +32,7 @@ class LinkedList
         Node* newNode = new Node(value);
         if (!head) {
             head = newNode;
+            length++;
             return;
         }
         Node* temp = head;
@@ -45,6 +46,7 @@ class LinkedList
     void insert(int value, int position) {
         if (position<=1) {
             insert(value);
+            return;
         } 
 
         if (position > length) {
