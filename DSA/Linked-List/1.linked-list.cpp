@@ -8,7 +8,6 @@ class LinkedList
         public:
         int value;
         Node* next;
-        
             Node(int val) {
                 value = val;
                 next = nullptr;
@@ -65,6 +64,32 @@ class LinkedList
         length++;
     }
 
+    void pop() {
+        if (!head) {
+            cout << "Nothing to pop!" << endl;
+            return;
+        }
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+        length--;
+    }
+
+    void pop_back() {
+        if (!head) {
+            cout << "Nothing to pop!" << endl;
+            return;
+        }
+        Node* temp = head;
+        while (temp->next->next != nullptr) {
+            temp = temp->next;
+        }
+        Node* toBeDeleted = temp->next;
+        temp->next = nullptr;
+        delete toBeDeleted;
+    }
+
+
 
     void traverse() {
         Node* temp = head;
@@ -84,7 +109,11 @@ int main() {
     cin.tie(nullptr);
 
     LinkedList list;
-    list.insert(3, 0);
+    // list.insert(3);
+    // list.insert(4);
+    // list.insert(5);
+    // list.insert(6);
+    list.pop_back();
     list.traverse();
 
     return 0;
