@@ -73,7 +73,26 @@ class CircularLinkedList
         length++;
     }
 
+    void pop() {
+        if (length==1) {
+            delete head;
+            length--;
+            cout << "List deleted\n";
+            return;
+        }
+        Node* toBeDeleted = head;
+        head = head->next;
+        tail->next = head;
+        delete toBeDeleted;
+    }
+
     void pop_back() {
+        if (length==1) {
+            delete head;
+            length--;
+            cout << "List deleted\n";
+            return;
+        }
         Node* temp = head;
         while (temp->next->next != head) {
             temp = temp->next;
@@ -81,11 +100,36 @@ class CircularLinkedList
         temp->next = head;
         delete tail;
         tail = temp;
+        length--;
     }
 
-
+    void pop_at_position(int n) {
+        if (n<1) return;
+        if (n>length) return;
+        if (n==1) {
+            pop();
+            return;
+        }
+        if (n==length) {
+            pop_back();
+            return;
+        }
+        
+        Node* temp = head;
+        for (int i=1; i<n-1; i++) {
+            temp=temp->next;
+        }
+        Node* toBeDeleted = temp->next;
+        temp->next = toBeDeleted->next;
+        delete toBeDeleted;
+        length--;
+    }
 
     void traverse() {
+        if (length==0) {
+            cout << "No element found. Traversal not possible\n";
+            return;
+        }
         Node* temp = head;
         while (temp->next != head) {
             cout << temp->value << " ";
@@ -106,10 +150,9 @@ int main() {
     CircularLinkedList list;
     list.insert(3);
     list.insert(4);
-    list.insertAtEnd(17);
     list.insert(5);
-    list.insert(6);
-    list.pop_back();
+    list.traverse();
+    list.pop_at_position(2);
     list.traverse();
 
     return 0;

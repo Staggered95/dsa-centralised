@@ -87,15 +87,62 @@ class LinkedList
         Node* toBeDeleted = temp->next;
         temp->next = nullptr;
         delete toBeDeleted;
+        length--;
     }
 
-
+    void pop_at_position(int n) {
+        if (n<1) return;
+        if (n>length) return;
+        if (n==1) {
+            pop();
+            return;
+        }
+        if (n==length) {
+            pop_back();
+            return;
+        }
+        
+        Node* temp = head;
+        for (int i=1; i<n-1; i++) {
+            temp=temp->next;
+        }
+        Node* toBeDeleted = temp->next;
+        temp->next = toBeDeleted->next;
+        delete toBeDeleted;
+        length--;
+    }
 
     void traverse() {
         Node* temp = head;
         while (temp) {
             cout << temp->value << " ";
             temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    int countEven() {
+        int count = 0;
+        Node* temp = head;
+        while (temp) {
+            if (temp->value % 2 == 0) count++;
+            temp = temp->next;
+        }
+        return count;
+    }
+
+    Node* searchWithRecursion(Node* head, int key) {
+        if (head == nullptr) return nullptr;
+        if (head->value == key) return head;
+        return searchWithRecursion(head->next, key);
+    }
+
+    bool search(int key) {
+        Node* ans = searchWithRecursion(head, key);
+        if (ans) {
+            return true;
+        }else {
+            return false;
         }
     }
 
@@ -105,16 +152,14 @@ class LinkedList
 };
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
 
     LinkedList list;
-    // list.insert(3);
-    // list.insert(4);
-    // list.insert(5);
-    // list.insert(6);
-    list.pop_back();
-    list.traverse();
+    list.insertAtEnd(32);
+    list.insertAtEnd(42);
+    list.insertAtEnd(18);
+    list.insertAtEnd(11);
+    list.insertAtEnd(17);
+    cout << boolalpha << list.search(32) << endl;
 
     return 0;
 }
