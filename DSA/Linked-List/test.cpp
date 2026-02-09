@@ -1,46 +1,25 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/*
-structure of the node of the list is as
-struct Node
-{
-    int data;
-    struct Node* next;
-
-    Node(int x){
-        data = x;
-        next = NULL;
+void permute(string& s, int index) {
+    if (index == s.size()) {
+        cout << s << " ";
     }
-};
-*/
-
-class Solution {
-  public:
-    // Should return head of the modified linked list
-    Node* sortedInsert(Node* head, int key) {
-        // Code here
-        Node* newNode = new Node(key);
-        if (!head) return newNode;
-        if (head->data > key) {
-            newNode->next = head;
-            return newNode;
-        }
-        Node* temp = head;
-        while (temp->next && temp->next->data < key) {
-            temp=temp->next;
-        }
-        newNode->next = temp->next;
-        temp->next=newNode;
-        return head;
+    for (int i=index; i<s.size(); i++) {
+        swap(s[index], s[i]);
+        permute(s, index+1);
+        swap(s[index], s[i]);
     }
-};
+}
+
+
+
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    
+    string s = "tree";
+    permute(s, 0);
 
     return 0;
 }
