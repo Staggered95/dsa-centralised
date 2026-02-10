@@ -5,8 +5,8 @@ int prefixEvaluation(string s) {
     stack<int> st;
     for (int i=s.length()-1; i>=0; i--) {
         char curr = s[i];
-        if (isalnum(curr)) {
-            st.push(stoi(curr));
+        if (isdigit(curr)) {
+            st.push((curr-'0'));
         } else {
             int second = st.top(); st.pop();
             int first = st.top(); st.pop();
@@ -38,7 +38,8 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    
+    string expression = "+-/345*67";
+    cout << prefixEvaluation(expression);
 
     return 0;
 }

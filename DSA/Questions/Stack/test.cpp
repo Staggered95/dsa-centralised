@@ -1,34 +1,43 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class Solution {
   public:
-    void deleteFromStack(stack<int>& s, int count, int size) {
-        if (s.empty() || count==size/2) {
-            s.pop();
-            return;
+    int precedance(char x) {
+        if (x == '+' || x == '-') return 1;
+        if (x == '*' || x == '/') return 2;
+        if (x == '^') return 3;
+        return 0;
+    }  
+
+    string infixToPostfix(string& s) {
+        // code here
+        string ans = "";
+        stack<char> st;
+
+        for (int i=0; i<s.length(); i++) {
+            char curr = s[i];
+
+            if (isalnum(curr)) {
+                ans += curr;
+            } else if (curr == '(') {
+                st.push(curr);
+            } else if (curr == ')') {
+                while (!st.empty() && st.top() != '(') {
+                    ans += st.top();
+                    st.pop();
+                }
+                st.pop();
+            } else {
+                while (!st.empty() && (precedance(st.top()) >= precedance(curr)) && (curr != '^')) {
+                    ans += st.top();
+                    st.pop();
+                }
+                st.push(curr);
+            }
         }
-
-        int temp = s.top();
-        s.pop();
-        deleteFromStack(s, count+1, size);
-        s.push(temp);
-    }
-
-    // Function to delete middle element of a stack.
-    void deleteMid(stack<int>& s) {
-        // code here..
-        int count = 0;
-        deleteFromStack(s, count, s.size());
-
+        
+        while (!st.empty()) {
+            ans += st.top();
+            st.pop();
+        }
+        return ans;
     }
 };
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    
-
-    return 0;
-}
