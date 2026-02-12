@@ -20,6 +20,14 @@ class Solution {
           }
         }
 
-        if (st.empty())
+        int potential_candidate = st.top();
+
+        for (int i=0; i<n; i++) {
+          if (i == potential_candidate) continue;
+          if (mat[potential_candidate][i] == 1) return -1;
+          if (mat[i][potential_candidate] == 0) return -1;
+        }
+
+        return potential_candidate;
     }
 };
