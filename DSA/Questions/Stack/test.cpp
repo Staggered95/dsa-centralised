@@ -1,29 +1,25 @@
 class Solution {
   public:
-    void solve(queue<int>& q, stack<int>& st1, stack<int>& st2) {
-      if (st2.empty()) return;
-      int a = st1.top(); st1.pop();
-      int b = st2.top(); st2.pop();
-      solve(q, st1, st2);
-      q.push(a);
-      q.push(b);
-    }
-    
-    void rearrangeQueue(queue<int> &q) {
+    int celebrity(vector<vector<int>>& mat) {
         // code here
-        stack<int> st1, st2;
-        int half = q.size()/2;
+        stack<int> st;
+        int n = mat.size();
 
-        for (int i=0; i<half; i++) {
-          st1.push(q.front());
-          q.pop();
+        for (int i=0; i<n; i++) {
+          st.push(i);
         }
         
-        while (!q.empty()) {
-          st2.push(q.front());
-          q.pop();
+        
+        while (st.size() > 1) {
+          int a = st.top(); st.pop();
+          int b = st.top(); st.pop();
+          if (mat[a][b] == 1) {
+            st.push(b);
+          }else {
+            st.push(a);
+          }
         }
 
-        solve(q, st1, st2);
+        if (st.empty())
     }
 };
