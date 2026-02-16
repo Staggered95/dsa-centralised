@@ -1,26 +1,25 @@
 /*
 class Node {
-public:
+  public:
     int data;
     Node* left;
     Node* right;
 
+    // Constructor to initialize a new node
     Node(int val) {
         data = val;
-        left = right = NULL;
+        left = NULL;
+        right = NULL;
     }
 };
 */
 
 class Solution {
   public:
-    int height(Node* root) {
+    
+
+    vector<int> boundaryTraversal(Node *root) {
         // code here
-        if (!root) return -1;
-
-        int LH = height(root->left);
-        int RH = height(root->right);
-
-        return max(LH, RH) + 1;
+        
     }
 };

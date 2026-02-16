@@ -1,7 +1,7 @@
 
 
 int sumOfAllNodes(Node* root) {
-    if (!node) return 0;
+    if (!root) return 0;
     
     int LS = sumOfAllNodes(root->left);
     int RS = sumOfAllNodes(root->right);
