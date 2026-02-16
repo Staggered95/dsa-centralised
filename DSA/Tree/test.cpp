@@ -1,32 +1,26 @@
-#include <bits/stdc++.h>
-using namespace std;
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
 
-int longestEqual01(vector<int>& arr) {
-    unordered_map<int, int> firstIndex;
-    int sum = 0, maxLen = 0;
-
-    firstIndex[0] = -1;
-
-    for (int i = 0; i < arr.size(); i++) {
-        sum += (arr[i] == 0 ? -1 : 1);
-
-        if (firstIndex.count(sum)) {
-            maxLen = max(maxLen, i - firstIndex[sum]);
-        } else {
-            firstIndex[sum] = i;
-        }
+    Node(int val) {
+        data = val;
+        left = right = NULL;
     }
+};
+*/
 
-    return maxLen;
-}
+class Solution {
+  public:
+    int height(Node* root) {
+        // code here
+        if (!root) return -1;
 
+        int LH = height(root->left);
+        int RH = height(root->right);
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    vector<int> v = {1, 1, 0, 0, 0, 1, 1};
-    cout << longestEqual01(v);
-
-    return 0;
-}
+        return max(LH, RH) + 1;
+    }
+};
