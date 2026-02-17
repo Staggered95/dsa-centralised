@@ -1,6 +1,6 @@
 /*
 class Node {
-public:
+  public:
     int data;
     Node* left;
     Node* right;
@@ -15,24 +15,35 @@ public:
 
 class Solution {
   public:
-    vector<int> leftView(Node *root) {
+    vector<int> topView(Node *root) {
         // code here
         vector<int> res;
+        
         if (!root) return res;
-        queue<Node*> q;
-        q.push(root);
+
+        map<int, int> topNode;
+        queue<pair<Node*, int>> q;
+        q.push({root, 0});
 
         while (!q.empty()) {
             int n = q.size();
-            //vector<int> temp;
             for (int i=0; i<n; i++) {
-                Node* front = q.front();
+                Node* frontNode = q.front().first;
+                int hd = q.front().second;
                 q.pop();
-                if (i==0) res.push_back(front->data);
-                if (front->left) q.push(front->left);
-                if (front->right) q.push(front->right);
+
+                if (topNode.find(hd) == topNode.end()) {
+                    topNode[hd] = frontNode->data;
+                }
+                if (frontNode->left) q.push({frontNode->left, hd-1});
+                if (frontNode->right) q.push({frontNode->right, hd+1});
             }
         }
+
+        for (const auto& [first, second] : topNode) {
+            res.push_back(second);
+        }
+
         return res;
     }
 };
