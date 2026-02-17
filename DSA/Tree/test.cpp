@@ -1,49 +1,51 @@
-/*
-class Node {
-  public:
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child /
+struct Node
+{
     int data;
     Node* left;
     Node* right;
-
-    Node(int val) {
-        data = val;
-        left = nullptr;
-        right = nullptr;
-    }
-};
-*/
+}; */
 
 class Solution {
   public:
-    vector<int> topView(Node *root) {
-        // code here
+    // function should print the nodes at k distance from root
+    vector<int> Kdistance(Node *root, int k) {
+        // Your code here
         vector<int> res;
-        
         if (!root) return res;
 
-        map<int, int> topNode;
-        queue<pair<Node*, int>> q;
-        q.push({root, 0});
+        queue<Node*> q;
+        int currentDistance = 0;
+        q.push(root);
 
         while (!q.empty()) {
             int n = q.size();
-            for (int i=0; i<n; i++) {
-                Node* frontNode = q.front().first;
-                int hd = q.front().second;
-                q.pop();
-
-                if (topNode.find(hd) == topNode.end()) {
-                    topNode[hd] = frontNode->data;
+            if (currentDistance == k) {
+                while (!q.empty()) {
+                    res.push_back(q.front()->data);
+                    q.pop();
                 }
-                if (frontNode->left) q.push({frontNode->left, hd-1});
-                if (frontNode->right) q.push({frontNode->right, hd+1});
+                break;
             }
+            while (n--) {
+                Node* temp = q.front();
+                q.pop();
+                if (temp->left) q.push(temp->left);
+                if (temp->right) q.push(temp->right);
+            }
+            currentDistance++;
         }
-
-        for (const auto& [first, second] : topNode) {
-            res.push_back(second);
-        }
-
         return res;
     }
 };
+
+// Missing controls:
+// * Shuffle
+// * Repeat (all / one)
+// * Queue access
+// * Like / favorite
+// * Add to playlist
+// * Playback speed
+// * Audio quality indicator
+// * lyrics toggle between romaji, japanese, english, none
