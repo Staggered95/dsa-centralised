@@ -1,64 +1,38 @@
 /*
 class Node {
-  public:
+public:
     int data;
     Node* left;
     Node* right;
 
-    // Constructor to initialize a new node
     Node(int val) {
         data = val;
-        left = NULL;
-        right = NULL;
+        left = nullptr;
+        right = nullptr;
     }
 };
 */
 
 class Solution {
   public:
-    void traversLeft(Node* root, vector<int>& left) {
-        if (!root || (!root->left && !root->right)) return;
-        left.push_back(root->data);
-        if (root->left) {
-            traversLeft(root->left, left);
-        }else {
-            traversLeft(root->right, left);
-        }
-    }
-
-    void traversRight(Node* root, vector<int>& right) {
-        if (!root || (!root->left && !root->right)) return;
-        if (root->right) {
-            traversRight(root->right, right);
-        }else {
-            traversRight(root->left, right);
-        }
-        right.push_back(root->data);
-    }
-
-    void traverseLeaf(Node* root, vector<int>& leaf) {
-        if (!root) return;
-        if (!root->left && !root->right) {
-            leaf.push_back(root->data);
-            return;
-        }
-        traverseLeaf(root->left, leaf);
-        traverseLeaf(root->right, leaf);
-    }
-
-    vector<int> boundaryTraversal(Node *root) {
+    vector<int> leftView(Node *root) {
         // code here
-        vector<int> left, right, leaf;
-        traversLeft(root, left);
-        traversRight(root, right);
-        traverseLeaf(root, leaf);
+        vector<int> res;
+        if (!root) return res;
+        queue<Node*> q;
+        q.push(root);
 
-        set<int> v;
-        v.insert( left.begin(), left.end());
-        v.insert( leaf.begin(), leaf.end());
-        v.insert( right.begin(), right.end()-1);
-
-        return v;
-
+        while (!q.empty()) {
+            int n = q.size();
+            //vector<int> temp;
+            for (int i=0; i<n; i++) {
+                Node* front = q.front();
+                q.pop();
+                if (i==0) res.push_back(front->data);
+                if (front->left) q.push(front->left);
+                if (front->right) q.push(front->right);
+            }
+        }
+        return res;
     }
 };
