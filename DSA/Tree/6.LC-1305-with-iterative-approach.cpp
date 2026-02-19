@@ -24,6 +24,7 @@ public:
         pushLeft(root1, s1);
         pushLeft(root2, s2);
 
+        //can be minimized to just one if-else as well
         while (!s1.empty() || !s2.empty()) {
             if (s1.empty()) {
                 TreeNode* curr = s2.top();
