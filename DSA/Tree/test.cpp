@@ -1,51 +1,31 @@
-/* A binary tree node has data, pointer to left child
-   and a pointer to right child /
-struct Node
-{
-    int data;
-    Node* left;
-    Node* right;
-}; */
-
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
-  public:
-    // function should print the nodes at k distance from root
-    vector<int> Kdistance(Node *root, int k) {
-        // Your code here
-        vector<int> res;
-        if (!root) return res;
+public:
+    void pushLeft(TreeNode* root, stack<TreeNode*>& s) {
+      while (root) {
+        s.push(root);
+        root = root->left;
+      }
+    }
 
-        queue<Node*> q;
-        int currentDistance = 0;
-        q.push(root);
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int> ans;
+        stack<TreeNode*> s1, s2;
+        pushLeft(root1, s1);
+        pushLeft(root2, s2);
 
-        while (!q.empty()) {
-            int n = q.size();
-            if (currentDistance == k) {
-                while (!q.empty()) {
-                    res.push_back(q.front()->data);
-                    q.pop();
-                }
-                break;
-            }
-            while (n--) {
-                Node* temp = q.front();
-                q.pop();
-                if (temp->left) q.push(temp->left);
-                if (temp->right) q.push(temp->right);
-            }
-            currentDistance++;
-        }
-        return res;
+        while 
+
+        return ans;
     }
 };
-
-// Missing controls:
-// * Shuffle
-// * Repeat (all / one)
-// * Queue access
-// * Like / favorite
-// * Add to playlist
-// * Playback speed
-// * Audio quality indicator
-// * lyrics toggle between romaji, japanese, english, none
