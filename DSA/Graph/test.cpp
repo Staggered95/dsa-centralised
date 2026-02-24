@@ -1,52 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
-  public:
-    bool bfs(int start, vector<vector<int>>& adj, vector<bool>& visited) {
-        queue<int> q;
-        unordered_map<int, int> parent; //a map of child, parent
-
-        visited[start] = true;
-        q.push(start);
-        parent[start] = -1;
-
-        while (!q.empty()) {
-            int node = q.front();
-            q.pop();
-
-            for (int neighbour : adj[node]) {
-                if (!visited[neighbour]) {
-                    visited[neighbour] = true;
-                    q.push(neighbour);
-                    parent[neighbour] = node;
-                } else if (parent[node] != neighbour) {
-                    return true;
-                }
-            }
+public:
+    bool check(int arr1[], int arr2[]) {
+        int sum1 = 0;
+        int sum2 = 0;
+        for (int i=0; i<26; i++) {
+            sum1 += arr1[i];
+            sum2 += arr2[i];
         }
 
-        return false;
+        return sum1 == sum2;
     }
-    
-    bool isCycle(int V, vector<vector<int>>& edges) {
-        // Code here
-        vector<vector<int>> adj(V);
 
-        for (const auto& i : edges) {
-            int u = i[0];
-            int v = i[1];
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
+    bool checkInclusion(string s1, string s2) {
+            int l1 = s1.length();
+            int l2 = s2.length();
+            int arr1[26] = {0};
+            int arr2[26] = {0};
 
-        vector<bool> visited(V, false);
-        //for disconnected components
-        for (int i=0; i<V; i++) {
-            if (!visited[i]) {
-                if (bfs(i, adj, visited)) {
-                    return true;
+            for (int i=0; i<l1; i++) {
+                arr1[s1[i] - 'a']++;
+            }
+
+            int left = 0;
+            int right = 0;
+
+            for (right=0; right<l1; right++) {
+                if (arr1[s2[right]-'a'] != 0) {
+                    arr2[s2[right]-'a']++;
                 }
             }
-        }
 
-        return false;
+            if (check(arr1, arr2)) return true;
+
+            right++;
+
+            while (right < l2) {
+                arr2[s2[left] - 'a']--;
+                if (arr2[s2[left] - 'a'] < 0) arr2[s2[left] - 'a'] = 0;
+                left++;
+                arr2[s2[right] - 'a']++;
+                if (check(arr1, arr2)) return true;
+                right++;
+            }
+
+            return false;
     }
 };
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    Solution s;
+    cout << boolalpha << s.checkInclusion("abc", "bbcbcahj");
+
+    return 0;
+}
