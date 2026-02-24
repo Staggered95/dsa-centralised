@@ -2,7 +2,7 @@ class Solution {
   public:
     bool bfs(int start, vector<vector<int>>& adj, vector<bool>& visited) {
         queue<int> q;
-        unordered_map<int, int> parent; //<child, parent>
+        unordered_map<int, int> parent; //a map of child, parent
 
         visited[start] = true;
         q.push(start);
