@@ -1,25 +1,52 @@
 class Solution {
   public:
-    void dfsHelper(int node, vector<vector<int>>& adj, vector<bool>& isVisited, vector<int>& result) {
-        isVisited[node] = true;
-        result.push_back(node);
+    bool bfs(int start, vector<vector<int>>& adj, vector<bool>& visited) {
+        queue<int> q;
+        unordered_map<int, int> parent; //<child, parent>
 
-        for (auto neighbour : adj[node]) {
-            if (!isVisited[neighbour]) {
-                dfsHelper(neighbour, adj, isVisited, result);
+        visited[start] = true;
+        q.push(start);
+        parent[start] = -1;
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            for (int neighbour : adj[node]) {
+                if (!visited[neighbour]) {
+                    visited[neighbour] = true;
+                    q.push(neighbour);
+                    parent[neighbour] = node;
+                } else if (parent[node] != neighbour) {
+                    return true;
+                }
             }
         }
+
+        return false;
     }
-  
-    vector<int> dfs(vector<vector<int>>& adj) {
+    
+    bool isCycle(int V, vector<vector<int>>& edges) {
         // Code here
-        int b = adj.size();
-        vector<bool> isVisited(b, false);
-        vector<int> result;
+        vector<vector<int>> adj(V);
 
-        dfsHelper(0, adj, isVisited, result);
+        for (const auto& i : edges) {
+            int u = i[0];
+            int v = i[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
 
-        return result;
+        vector<bool> visited(V, false);
+        //for disconnected components
+        for (int i=0; i<V; i++) {
+            if (!visited[i]) {
+                if (bfs(i, adj, visited)) {
+                    return true;
+                }
+            }
+        }
 
+        return false;
     }
 };
