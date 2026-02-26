@@ -1,42 +1,81 @@
 class Solution {
   public:
-    bool isCyclic(int V, vector<vector<int>> &edges) {
+    bool dfs(int node, vector<vector<int>>& adj, vector<int>& visited, vector<int>& rec) {
+        visited[node] = 1;
+        rec[node] = 1;
+
+        for (auto neighbour : adj[node]) {
+            if (!visited[neighbour]) {
+                if (dfs(neighbour, adj, visited, rec)) return true;
+            } else if (rec[neighbour]) {
+                return true;
+            }
+        }
+
+        rec[node] = 0;
+        return false;
+    }
+  
+    bool isPossible(int N, int P, vector<pair<int, int> >& prerequisites) {
+        // Code here
+        vector<vector<int>> adj(N);
+        
+        for (auto &i : prerequisites) {
+            int u = i.first;
+            int v = i.second;
+            adj[v].push_back(u);
+        }
+
+        vector<int> visited(N, 0);
+        vector<int> rec(N, 0);
+
+        for (int i=0; i<N; i++) {
+            if (!visited[i]) {
+                //dfs
+                if (dfs(i, adj, visited, rec)) return false;
+            }
+        }
+
+        return true;
+    }
+};
+
+
+class Solution {
+  public:
+    bool dfs(int node, vector<vector<int>>& adj, vector<int>& visited, vector<int>& rec) {
+        visited[node] = true;
+        rec[node] = 1;
+
+        for (auto neighbour : adj[node]) {
+            if (!visited[neighbour]) {
+                if (dfs(neighbour, adj, visited, rec)) return true;
+            } else if (rec[neighbour]) {
+                return true;
+            }
+        }
+
+        rec[node] = 0;
+        return false;
+    }
+  
+    vector<int> findOrder(int n, vector<vector<int>> &prerequisites) {
         // code here
-        vector<vector<int>> adj(V);
+        vector<vector<int>> adj;
 
-        for (const auto &i : edges) {
-            int u = i[0];
-            int v = i[1];
-            adj[u].push_back(v);
+        for (const auto &i : prerequisites) {
+            int u = i.first;
+            int v = i.second;
+            adj[v].push_back(u);
         }
 
-        vector<int> indegree(V, 0);
-        for (int i=0; i<V; i++) {
-            for (auto j : adj[i]) {
-                indegree[j]++;
+        vector<bool> visited(n, false);
+        vector<int> rec(n, 0);
+
+        for (int i=0; i<n; i++) {
+            if (!visited[i]) {
+                
             }
         }
-
-        //push all vertices with indegree 0, in queue
-        queue<int> q;
-        for (int i=0; i<V; i++) {
-            if (indegree[i] == 0) q.push(i);
-        }
-
-        vector<int> result;
-        while (!q.empty()) {
-            int node = q.front();
-            q.pop();
-            result.push_back(node);
-            
-            for (auto neighbour : adj[node]) {
-                indegree[neighbour]--;
-                if (indegree[neighbour] == 0) {
-                    q.push(neighbour);
-                }
-            }
-        }
-
-        return result;
     }
 };
